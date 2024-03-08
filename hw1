@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+public class hw1 {
+  public static void main(String[] args) {
+      Scanner input = new Scanner(System.in);
+      String op = input.nextLine();
+      String[] parts = op.split(" ");
+      String ans = "";
+      String mid = "";
+      int p = 0; //carry
+
+      String[] first = parts[0].split("\\.");
+      String[] second = parts[1].split("\\.");
+      String str1 = first[0];
+
+      if(first[0].length() > second[0].length()){
+        ans += first[0].substring(second[0].length(),first[0].length());
+        str1 = second[0];
+      }
+      else if(first[0].length() < second[0].length()){
+        ans += second[0].substring(first[0].length(),second[0].length());
+        str1 = first[0];
+      }
+
+      // point
+      for(int k = str1.length()- 1; k >= 0;k--){
+        int add1 = (int)parts[0].charAt(k) - '0';
+        int add2 = (int)parts[1].charAt(k) - '0';
+        if(add1 + add2 + p >= 10){
+          ans += String.valueOf(add1 + add2 + p - 10);
+          p = 1;
+        }
+        else{
+          ans += String.valueOf(add1 + add2 + p);
+          p = 0;
+        }
+      }
+      StringBuilder reversed_1 = new StringBuilder(ans).reverse();
+      ans = "." + reversed_1;
+      str1 = (first[1].length() > second[1].length()) ? first[1] : second[1]; // big
+      String str = (first[1].length() < second[1].length()) ? first[1] : second[1]; // small
+      System.out.println(ans);
+      // integer
+      str = "0" + str; // 進位需求
+      for(int k = str.length() - 1 - 1;k >= 0;k--){
+
+        int add1 = (int)parts[0].charAt(k) - '0';
+        int add2 = (int)parts[1].charAt(k) - '0';
+        //System.out.println("add1 : "+ add1+ ", add2 : "+add2);
+        if(add1 + add2 + p >= 10){
+          mid += String.valueOf(add1 + add2 + p - 10);
+          p = 1;
+        }
+        else{
+          mid += String.valueOf(add1 + add2 + p);
+          p = 0;
+        }
+        //System.out.println(ans);
+      }
+      mid += str1.substring(0, str1.length() - str.length());
+      StringBuilder reversed_2 = new StringBuilder(mid).reverse();
+      ans = reversed_2 + ans;
+      System.out.println(ans);
+      input.close();
+  }
+}
+
+
